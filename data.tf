@@ -6,7 +6,7 @@ data "openstack_compute_flavor_v2" "flavor" {
   name = local.KIS.instance.flavor_name
 }
 
-data "openstack_networking_network_v2" "private_network"{
-    name = openstack_networking_network_v2.my_network.name
+data "openstack_networking_network_v2" "my_private_network"{
+    name = openstack_networking_network_v2.private_network.name
 }
 

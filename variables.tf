@@ -15,22 +15,22 @@ variable "tenant_name" {
 # Default: ext-net (External network -> instance connection to internet)
 variable "external_network_name" {
   type    = string
-  default = "ext-net"
+}
+variable "external_network_subnet_name" {
+  type    = string
 }
 
 variable "private_network_name" {
   type    = string
-  default = "my-net"
+}
+variable "private_network_subnet_name" {
+  type    = string
 }
 
 variable "project" {
   type = string
 }
 
-variable "environment_private" {
-  type = string
-}
-
-variable "environment_public" {
+variable "router_name" {
   type = string
 }
