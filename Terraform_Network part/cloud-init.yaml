@@ -44,3 +44,7 @@ runcmd:
   - sudo systemctl start install_docker_minikube
   - sudo minikube start --nodes=3
   - sudo minikube addons enable ingress
+  
+  #IP tables rules
+  - sudo iptables -A FORWARD -o eth0 -i cbr0 -j ACCEPT
+  - sudo iptables -A FORWARD -i eth0 -o cbr0 -j ACCEPT
