@@ -9,3 +9,7 @@ data "openstack_compute_flavor_v2" "flavor" {
 data "openstack_compute_keypair_v2" "my_instance_keypair" {
   name = openstack_compute_keypair_v2.instance_keypair.name
 }
+
+data "template_file" "docker_minikube_instance" {
+  template = file("cloud-init.yaml")
+}

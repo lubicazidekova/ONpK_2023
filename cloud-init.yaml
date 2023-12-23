@@ -1,0 +1,44 @@
+#cloud-config
+package_update: true
+
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
+
+write_files:
+  - path: /usr/local/bin/install_docker_minikube.sh
+    content: |
+      #!/bin/bash
+      set -e
+
+      # Install Docker
+      curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+      echo "deb [signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+      apt-get update
+      apt-get install -y docker-ce docker-ce-cli containerd.io
+
+      # Install Minikube
+      curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+      chmod +x minikube
+      mv minikube /usr/local/bin/
+
+  - path: /etc/systemd/system/install_docker_minikube.service
+    content: |
+      [Unit]
+      Description=Install Docker and Minikube
+      #After=network.target zaistí, že inštalácia Dockeru a Minikube
+      #bude vykonaná až potom, čo je sieť inicializovaná a pripravená na použitie.
+      After=network.target
+
+      [Service]
+      ExecStart=/usr/local/bin/install_docker_minikube.sh
+
+      [Install]
+      WantedBy=default.target
+
+runcmd:
+  - systemctl enable install_docker_minikube
+  - systemctl start install_docker_minikube

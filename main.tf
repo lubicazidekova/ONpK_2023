@@ -24,6 +24,7 @@ resource "openstack_compute_instance_v2" "MINIKUBE_private_instance" {
     name = var.private_network_name
 
   }
+  user_data = data.template_file.docker_minikube_instance.rendered
 }
 
 
