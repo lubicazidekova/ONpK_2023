@@ -1,5 +1,5 @@
 
-#_________________________________PRIVATE--MINIKUBE INSTANCE _____________________________________
+#________________________________PRIVATE--MINIKUBE INSTANCE _____________________________________
 
 resource "openstack_networking_network_v2" "private_network" {
   name           = var.private_network_name
