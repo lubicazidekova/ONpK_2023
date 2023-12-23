@@ -8,7 +8,7 @@ WORKDIR /build
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o main .
 
 # image build image - use scratch to get smallest possible size of an image
-FROM scratch
+
 ## TODO:
 # Prikaz COPY, ktory poznate, je mozne pouzit aj na kopirovanie suborov, ktore vznikli v predchadzajucom stage, tj:
 # COPY --from=<stage_name> source target
@@ -17,3 +17,7 @@ FROM scratch
 #  1. pridat prikaz, ktory skopiruje zo stage builder subor: /builder/main do adresara /app/ (vsimnite si na riadku c.8, ze vystupom kompilacie je subor s nazvom main)
 #  2. nastavit pracovny adresar (workdir) na: /app
 #  3. pridat instrukciu, ktora zabezpeci, ze po vytvoreni kontajnera sa spusti aplikacia (tj. ./main)
+FROM scratch
+WORKDIR /app
+COPY --from=builder /build/main .
+CMD ["./main"]
